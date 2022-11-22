@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+{% block inside-head %} <Title>Главная страница</Title> {% endblock %}
+
+{% block content %}
+    <h2>Добро пожаловать</h2>
+    <a href="{% url 'item-list' %}">Перейти к списку товаров</a>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+{% block inside-head %} <Title>Не успех...</Title> {% endblock %}
+
+{% block content %}
+    <h2>Платеж отклонен</h2>
+    <a href="{% url 'main' %}">Вернуться на главную</a>
+
+{% endblock %}

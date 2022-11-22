@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% block inside-head %}
+
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
+
+<title>{{ item.name }}</title>
+
+{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>{{ item_detail.name }} </h2>
+        {{ item_detail.description }}
+        <h3>Цена: {{ item_detail.show_price }}  руб.</h3>
+
+
+      <form action="{% url 'buy' item_detail.id %}" method="POST">
+          {% csrf_token %}
+        <button type="button" id="buy-button">Buy</button>
+      </form>
+
+    </section>
+
+
+     <script type="text/javascript">
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+    var buyButton = document.getElementById("buy-button");
+    buyButton.addEventListener("click", function () {
+      fetch("{% url 'buy' item_detail.id %}", {
+        method: "POST",
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (session) {
+          return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function (result) {
+          if (result.error) {
+            alert(result.error.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error:", error);
+        });
+    });
+     </script>
+
+    <br><a href="{% url 'item-list' %}">Вернуться к списку товаров</a>
+
+{% endblock %}

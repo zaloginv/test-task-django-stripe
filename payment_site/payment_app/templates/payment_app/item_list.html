@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block inside-head %} <Title>Товары</Title> {% endblock %}
+
+{% block content %}
+    <h2>Список товаров</h2>
+    {% if item_list %}
+        <h4>ID товара | Наименование товара | Цена товара (руб.)</h4>
+            {% for item in item_list %}
+                <br> {{ item.id }} | <a href="{% url 'item-list' %}item/{{ item.id }}">
+                    {{ item.name }}</a> | {{ item.show_price }}
+            {% endfor %}
+
+    {% else %} Товаров нет
+    {% endif %}
+
+    <p><a href="{% url 'main' %}"><input type="submit" value="Вернуться на главную"></a></p>
+
+{% endblock %}
