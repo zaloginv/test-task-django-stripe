@@ -18,5 +18,5 @@ class Command(BaseCommand):
         for _ in range(20):
             Item(name=f'{choice(item_name_start_list)} {choice(item_name_middle_list)} {choice(item_name_end_list)}',
                  description=choice(item_description_list),
-                 price=randint(100000,1000000) \
+                 price=randint(100000, 1000000)) \
                 .save()
